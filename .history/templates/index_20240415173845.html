@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<h2>Welcome!</h2>
+<p>Welcome to the Clothes Exchange app. This is the home page. Here are a few links to example pages you might find interesting.
+    
+    
+    <ul>
+        <li>The Clothes Exchange App is an innovative platform designed to promote sustainable fashion and extend the life cycle of garments. It serves as a virtual marketplace where users can effortlessly swap, trade, or exchange their clothing with others. This app not only encourages a more eco-friendly approach to fashion but also offers an economical solution for refreshing one's wardrobe without the need to purchase new items.</li>
+        <li>Users of the Clothes Exchange App can list their garments, providing details such as type, brand, size, condition, and images, making it easy for others to browse and select items of interest. It's a community-centric tool that fosters a cycle of reuse, reducing waste and the carbon footprint associated with the production of new clothing.<wbr>The app is intuitive and user-friendly, enabling members to navigate through listings, post their own items, and engage in exchanges with confidence and ease. By harnessing the power of technology, the Clothes Exchange App brings together fashion enthusiasts who share a common goal: to make style sustainable. Whether you're looking to declutter your closet, find a unique piece, or simply participate in a movement towards more responsible consumption, the Clothes Exchange App is your go-to destination for all things fashion and sustainability.</li>
+    </ul>    
+    <ul>
+        <li><a href="{{ url_for('read')}}">a page that displays clothes that posted by all the users</a></li>
+        <li><a href="{{ url_for('create')}}">a page with a form you can submit to create a new post in the clothes exchange collections.</a></li>
+    </ul>
+</p>
+{% endblock %}
