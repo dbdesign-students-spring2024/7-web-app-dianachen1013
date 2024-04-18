@@ -1,4 +1,4 @@
-# Flask-MongoDB Web App
+# Clothes Exchange Web App
 
 In this assignment you will create a web app that relies upon a MongoDB database.
 
