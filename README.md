@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # Web App Workshop --- Clothes Exchange App
-=======
-# Clothes Exchange Web App
->>>>>>> 849b207608b90292a71df8dcbc4c447f5ceeac2a
 
 ## Description:
 - The Clothes Exchange App is an innovative platform designed to promote sustainable fashion and extend the life cycle of garments. It serves as a virtual marketplace where users can effortlessly swap, trade, or exchange their clothing with others. This app not only encourages a more eco-friendly approach to fashion but also offers an economical solution for refreshing one's wardrobe without the need to purchase new items.
@@ -12,8 +8,24 @@
 Here are some screenshots of the Web App
 1. Home Page:
 Home page shows the function buttons, App description, and code sources:
-![Functions](./images/home_page.png)
+Functions: ![Functions](./images/home_page.png)
+App description: ![Welcome](./images/Welcome_page.png)
+Code sources: ![Code_sourse](./images/link_to_git.png)
 
-- a link to the deployed copy of your app
-- the full names, NYU Net IDs, and links to GitHub accounts of any collaborators with whom you worked on this app
+2. Login Page:
+![Login](./images/login.png)
 
+3. Create Posts:
+Create a post page: ![create_post](./images/create_a_post.png)
+
+4. View All the Posts:
+![View_posts](./images/view_the_posts.png)
+
+5. Delete Posts:
+Users can't delete the post that are not post by themselves. It will show an error page when deleting: ![Delete](./images/delete_error.png)
+
+## A link to the deployed copy of your app
+Local link: http://127.0.0.1:5000/
+i6 link: https://i6.cims.nyu.edu/~dc4829/7-web-app-dianachen1013/flask.cgi
+
+This is a solo work by Name: Danqing Chen, NYU Net ID: dc4829
