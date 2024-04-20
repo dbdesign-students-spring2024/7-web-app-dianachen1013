@@ -24,8 +24,8 @@ from sentry_sdk.integrations.flask import (
 
 # flask login
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
-
+from werkzeug.security import generate_password_hash, check_password_hash
+from pymongo import MongoClient
 
 # from markupsafe import escape
 import pymongo
@@ -65,7 +65,8 @@ login_manager.login_view = 'login'
 try:
     cxn = pymongo.MongoClient(os.getenv("MONGO_URI"))
     db = cxn[os.getenv("MONGO_DBNAME")]  # store a reference to the selected database
-
+    users_collection = db['users']
+    clothes_collection = db['clothes']
     # verify the connection works by pinging the database
     cxn.admin.command("ping")  # The ping command is cheap and does not require auth.
     print(" * Connected to MongoDB!")  # if we get here, the connection worked!
@@ -76,10 +77,14 @@ except ConnectionFailure as e:
     sentry_sdk.capture_exception(e)  # send the error to sentry.io. delete if not using
     sys.exit(1)  # this is a catastrophic error, so no reason to continue to live
 
-# User Loader
+
+
 @login_manager.user_loader
 def load_user(user_id):
-    return db.users.find_one({"_id": ObjectId(user_id)})
+    user = db.users.find_one({"_id": user_id})
+    if not user:
+        return None
+    return User(user)
 
 # User class
 class User(UserMixin):
@@ -92,16 +97,43 @@ class User(UserMixin):
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']  # Implement password hashing in production
-        user = db.users.find_one({"username": username, "password": password})
-        if user:
-            login_user(User(user))
+        password = request.form['password']
+        user = db.users.find_one({"username": username})
+        if user and check_password_hash(user['password'], password):
+            user_obj = User(user)
+            login_user(user_obj)
             return redirect(url_for('home'))
+        else:
+            return render_template('login.html', error='Invalid username or password')
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
     logout_user()
+    return redirect(url_for('home'))
+
+@app.route('/create_account', methods=['POST'])
+def create_account():
+    username = request.form['username']
+    password = request.form['password']
+    email = request.form['email']  # Ensure you're capturing email in your form
+    # Check if user already exists
+    existing_user = db.users.find_one({"username": username})
+    if existing_user:
+        return render_template('login.html', error='Username already exists')
+    
+    hashed_password = generate_password_hash(password)
+    # Insert the new user into the database
+    users_collection.insert_one({
+        "username": username,
+        "password": hashed_password,
+        "email": email
+    })
+    # Optionally log the user in right after creating an account, or redirect to login page
+    new_user = users_collection.find_one({"username": username})
+    
+    user_obj(User(new_user))
+    login_user(user_obj)
     return redirect(url_for('home'))
 
 
@@ -149,11 +181,12 @@ def create_post():
     size = request.form["fsize"]
     condition = request.form["fcondition"]
     image_url = request.form["fimage_url"]
-    user_id = current_user.id
+
 
     # create a new document with the data the user entered
-    doc = {"user_id": current_user.id,"name": name, "message": message, "brand": brand, "type_of_clothes": type_of_clothes, "size": size, "condition": condition, "image_url": image_url,"created_at": datetime.datetime.utcnow()}
+    doc = {"user_id": current_user.get_id(),"name": name, "message": message, "brand": brand, "type_of_clothes": type_of_clothes, "size": size, "condition": condition, "image_url": image_url,"created_at": datetime.datetime.utcnow()}
     db.exampleapp.insert_one(doc)  # insert a new document
+
 
     return redirect(
         url_for("read")
@@ -198,7 +231,7 @@ def edit_post(mongoid):
       doc = {
           # "_id": ObjectId(mongoid),
           "name": name,
-         "message": message,
+          "message": message,
           "brand": brand,
           "type_of_clothes": type_of_clothes,
           "size": size,
