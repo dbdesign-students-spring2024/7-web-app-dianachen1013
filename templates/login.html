@@ -3,21 +3,39 @@
 {% extends 'base.html' %}
 
 {% block container %}
-<h2>Login</h2>
-<form method="POST" action="{{ url_for('login') }}">
-  <div class="form-group">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-  </div>
-  <div class="form-group">
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-  </div>
-  <div class="form-actions">
-    <button type="submit">Login</button>
-  </div>
-  {% if error %}
-    <p class="error">{{ error }}</p>
-  {% endif %}
-</form>
+<div class="login-container">
+  <h2>Login</h2>
+  <form method="POST" action="{{ url_for('login') }}">
+    <!-- Existing login form fields -->
+    <div class="form-actions">
+      <button type="submit" class="button">Login</button>
+    </div>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+  </form>
+</div>
+
+<div class="create-account-container">
+  <h2>Create an Account</h2>
+  <form method="POST" action="{{ url_for('create_account') }}">
+    <!-- Add fields for account creation -->
+    <div class="form-group">
+      <label for="new-username">Username:</label>
+      <input type="text" id="new-username" name="username" required>
+    </div>
+    <div class="form-group">
+      <label for="new-password">Password:</label>
+      <input type="password" id="new-password" name="password" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <!-- More fields as necessary -->
+    <div class="form-actions">
+      <button type="submit" class="button">Create Account</button>
+    </div>
+  </form>
+</div>
 {% endblock %}
