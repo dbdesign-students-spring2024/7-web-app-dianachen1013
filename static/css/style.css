@@ -2,6 +2,7 @@
   border: 2px solid;
   width: 50%;
   margin: 0 auto;
+  background-color: #BCAECF; 
 }
 
 header,
@@ -22,4 +23,20 @@ p.post {
 
 footer {
   margin-bottom: 5px;
+}
+
+/* New button styles */
+a.button {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 5px;
+  background-color: #f9edd4;
+  color: black;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+a.button:hover {
+  background-color: #754591; 
 }
