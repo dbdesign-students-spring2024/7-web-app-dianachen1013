@@ -27,5 +27,5 @@ Users can't delete the post that are not post by themselves. It will show an err
 ## A link to the deployed copy of your app
 Local link: http://127.0.0.1:5000/
 i6 link: https://i6.cims.nyu.edu/~dc4829/7-web-app-dianachen1013/flask.cgi
-
+The picture shows to connect by using i6: ![i6](./images/i6.png)
 This is a solo work by Name: Danqing Chen, NYU Net ID: dc4829
